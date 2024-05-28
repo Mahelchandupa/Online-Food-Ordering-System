@@ -1,4 +1,4 @@
-package com.mahel.FoodOrderingService.response;
+package com.mahel.FoodOrderingService.dto;
 
 import com.mahel.FoodOrderingService.enums.UserRole;
 import lombok.Data;
