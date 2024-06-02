@@ -18,4 +18,13 @@ public class Address {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    private String street;
+    private String city;
+    private String state;
+    private String postalCode;
+    private String country;
+
+    @OneToOne(mappedBy = "address")
+    private Restaurant restaurant;
 }
