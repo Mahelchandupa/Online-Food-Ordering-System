@@ -29,7 +29,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     private UserRepository userRepository;
 
     @Override
-    public Restaurant createRestaurant(Restaurant restaurant) {
+    public Restaurant createRestaurant(Restaurant restaurant, User user) {
 
         if (restaurant.getName() == null) {
             throw new BadRequestException("");
@@ -58,15 +58,15 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurant1.setCuisineType(restaurant.getCuisineType());
         restaurant1.setIngredientCategories(restaurant.getIngredientCategories());
         restaurant1.setRegistrationDate(LocalDateTime.now());
-        restaurant1.setOwner(restaurant.getOwner());
+        restaurant1.setOwner(user);
 
         return restaurantRepository.save(restaurant1);
     }
 
     @Override
-    public Restaurant updateRestaurant(Restaurant restaurant) {
+    public Restaurant updateRestaurant(Long id, Restaurant restaurant) {
 
-        Optional<Restaurant> existingRestaurantOpt = restaurantRepository.findById(restaurant.getId());
+        Optional<Restaurant> existingRestaurantOpt = restaurantRepository.findById(id);
 
         if (existingRestaurantOpt.isEmpty()) {
             throw new BadRequestException("Can not find Restaurant");
@@ -87,7 +87,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public void deleteRestaurant(Long id) {
+    public Boolean deleteRestaurant(Long id) {
 
         Optional<Restaurant> restaurant = restaurantRepository.findById(id);
 
@@ -95,7 +95,9 @@ public class RestaurantServiceImpl implements RestaurantService {
             throw new BadRequestException("Can not Find Restaurant With Id " + id);
         }
 
-       restaurantRepository.delete(restaurant.get());
+        restaurantRepository.delete(restaurant.get());
+
+        return true;
     }
 
     @Override

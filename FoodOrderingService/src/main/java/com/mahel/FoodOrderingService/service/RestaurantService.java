@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface RestaurantService {
 
-    public Restaurant createRestaurant(Restaurant restaurant);
+    public Restaurant createRestaurant(Restaurant restaurant, User user);
 
-    public Restaurant updateRestaurant(Restaurant restaurant);
+    public Restaurant updateRestaurant(Long id, Restaurant restaurant);
 
-    public void deleteRestaurant(Long id);
+    public Boolean deleteRestaurant(Long id);
 
     public List<Restaurant> getAllRestaurant();
 
