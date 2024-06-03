@@ -1,5 +1,6 @@
 package com.mahel.FoodOrderingService.service.impl;
 
+import com.mahel.FoodOrderingService.config.JwtProvider;
 import com.mahel.FoodOrderingService.repository.CartRepository;
 import com.mahel.FoodOrderingService.dto.UserDTO;
 import com.mahel.FoodOrderingService.model.Cart;
@@ -26,6 +27,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private JwtProvider jwtProvider;
+
     @Override
     public User registerUser(UserDTO userDTO) throws Exception {
 
@@ -50,5 +54,22 @@ public class UserServiceImpl implements UserService {
         cartRepository.save(cart);
 
         return savedUser;
+    }
+
+    @Override
+    public User userByToken(String token) throws Exception {
+
+        String email = jwtProvider.getEmailFromJwtToken(token);
+        User user = userRepository.findByEmail(email);
+
+        return user;
+    }
+
+    @Override
+    public User userByEmail(String email) throws Exception {
+
+         User user = userRepository.findByEmail(email);
+
+        return user;
     }
 }

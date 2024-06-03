@@ -1,4 +1,4 @@
-package com.mahel.FoodOrderingService.response;
+package com.mahel.FoodOrderingService.dto.response;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -3,8 +3,8 @@ package com.mahel.FoodOrderingService.controller;
 import com.mahel.FoodOrderingService.config.JwtProvider;
 import com.mahel.FoodOrderingService.dto.UserDTO;
 import com.mahel.FoodOrderingService.model.User;
-import com.mahel.FoodOrderingService.response.JWTResponseDTO;
-import com.mahel.FoodOrderingService.response.ResponseDTO;
+import com.mahel.FoodOrderingService.dto.JWTResponseDTO;
+import com.mahel.FoodOrderingService.dto.response.ResponseDTO;
 import com.mahel.FoodOrderingService.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/user")
@@ -79,6 +76,35 @@ public class UserController {
 
         response.setPayload(jwtResponseDTO);
         response.setMessage("Login Successful");
+        response.setCode("200");
+        response.setHttpStatus(HttpStatus.OK);
+
+        return new ResponseEntity<>(response, response.getHttpStatus());
+    }
+
+    @GetMapping("email/")
+    public ResponseEntity<ResponseDTO<UserDTO>> getUserByEmail(@RequestBody String email) throws Exception {
+
+        ResponseDTO<UserDTO> response = new ResponseDTO<>();
+
+        UserDTO userDTO = modelMapper.map(userService.userByEmail(email), UserDTO.class);
+
+        response.setPayload(userDTO);
+        response.setMessage("Success");
+        response.setCode("200");
+        response.setHttpStatus(HttpStatus.OK);
+
+        return new ResponseEntity<>(response, response.getHttpStatus());
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<ResponseDTO<UserDTO>> userByToken(@RequestHeader("Authorization") String token) throws Exception {
+
+        ResponseDTO<UserDTO> response = new ResponseDTO<>();
+        UserDTO userDTO = modelMapper.map(userService.userByToken(token), UserDTO.class);
+
+        response.setPayload(userDTO);
+        response.setMessage("Success");
         response.setCode("200");
         response.setHttpStatus(HttpStatus.OK);
 

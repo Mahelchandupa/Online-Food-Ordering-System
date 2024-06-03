@@ -22,11 +22,13 @@ public class Restaurant {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "restaurant")
     private List<Order> orders;
 
-    @OneToOne(mappedBy = "restaurant")
+    @ManyToOne
+    @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private User owner;
 
     private String name;
 
+    @Column(length = 1000)
     private String description;
 
     private String cuisineType;
