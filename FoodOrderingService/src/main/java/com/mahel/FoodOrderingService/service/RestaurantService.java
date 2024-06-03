@@ -24,5 +24,5 @@ public interface RestaurantService {
 
     public RestaurantDTO addToFavorites(Long restaurantId, User user);
 
-    public Restaurant findRestaurantByOwnerId(Long id);
+    public List<Restaurant> findRestaurantByOwnerId(Long id);
 }

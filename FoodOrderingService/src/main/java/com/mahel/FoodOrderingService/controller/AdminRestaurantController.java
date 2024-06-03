@@ -10,8 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("api/v1/admin/restaurant")
+@RequestMapping("api/v1/admin/restaurants")
 public class AdminRestaurantController {
 
     @Autowired
@@ -83,14 +85,14 @@ public class AdminRestaurantController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<ResponseDTO<Restaurant>> findRestaurantByOwner(@RequestHeader("Authorization") String jwt) throws Exception {
+    public ResponseEntity<ResponseDTO<List<Restaurant>>> findRestaurantByOwner(@RequestHeader("Authorization") String jwt) throws Exception {
 
-        ResponseDTO<Restaurant> response = new ResponseDTO<>();
+        ResponseDTO<List<Restaurant>> response = new ResponseDTO<>();
         User user = userService.userByToken(jwt);
 
-        Restaurant restaurant = restaurantService.findRestaurantByOwnerId(user.getId());
+        List<Restaurant> restaurants = restaurantService.findRestaurantByOwnerId(user.getId());
 
-        response.setPayload(restaurant);
+        response.setPayload(restaurants);
         response.setMessage("Successful");
         response.setHttpStatus(HttpStatus.OK);
         response.setCode("200");

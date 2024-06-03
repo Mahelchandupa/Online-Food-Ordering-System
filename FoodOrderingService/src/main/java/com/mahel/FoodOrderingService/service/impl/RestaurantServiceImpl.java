@@ -32,15 +32,11 @@ public class RestaurantServiceImpl implements RestaurantService {
     public Restaurant createRestaurant(Restaurant restaurant, User user) {
 
         if (restaurant.getName() == null) {
-            throw new BadRequestException("");
+            throw new BadRequestException("Restaurant Name Required");
         }
 
         if (restaurant.getDescription() == null) {
-            throw new BadRequestException("");
-        }
-
-        if (restaurant.getOwner() == null) {
-            throw new BadRequestException("");
+            throw new BadRequestException("Restaurant Description Required");
         }
 
         Address address = addressRepository.save(restaurant.getAddress());
@@ -74,13 +70,27 @@ public class RestaurantServiceImpl implements RestaurantService {
 
         Restaurant existingRestaurant = existingRestaurantOpt.get();
 
-        existingRestaurant.setName(restaurant.getName());
-        existingRestaurant.setDescription(restaurant.getDescription());
-        existingRestaurant.setCuisineType(restaurant.getCuisineType());
-        existingRestaurant.setAddress(restaurant.getAddress());
-        existingRestaurant.setContactInformation(restaurant.getContactInformation());
-        existingRestaurant.setOpeningHours(restaurant.getOpeningHours());
-        existingRestaurant.setImages(restaurant.getImages());
+        if (restaurant.getName() != null) {
+            existingRestaurant.setName(restaurant.getName());
+        }
+        if (restaurant.getDescription() != null) {
+            existingRestaurant.setDescription(restaurant.getDescription());
+        }
+        if (restaurant.getCuisineType() != null) {
+            existingRestaurant.setCuisineType(restaurant.getCuisineType());
+        }
+        if (restaurant.getAddress() != null) {
+            existingRestaurant.setAddress(restaurant.getAddress());
+        }
+        if (restaurant.getContactInformation() != null) {
+            existingRestaurant.setContactInformation(restaurant.getContactInformation());
+        }
+        if (restaurant.getOpeningHours() != null) {
+            existingRestaurant.setOpeningHours(restaurant.getOpeningHours());
+        }
+        if (restaurant.getImages() != null) {
+            existingRestaurant.setImages(restaurant.getImages());
+        }
         existingRestaurant.setOpen(restaurant.isOpen());
 
         return restaurantRepository.save(existingRestaurant);
@@ -135,33 +145,48 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public RestaurantDTO addToFavorites(Long restaurantId, User user) {
 
-        Restaurant restaurant = findRestaurantByOwnerId(restaurantId);
+        Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(restaurantId);
+        if (!optionalRestaurant.isPresent()) {
+            throw new BadRequestException("Restaurant not found with id " + restaurantId);
+        }
+
+        Restaurant restaurant = optionalRestaurant.get();
 
         RestaurantDTO restaurantDTO = new RestaurantDTO();
         restaurantDTO.setDescription(restaurant.getDescription());
         restaurantDTO.setImages(restaurant.getImages());
         restaurantDTO.setTitle(restaurant.getName());
-        restaurantDTO.setId(restaurant.getId());
+        restaurantDTO.setId(restaurantId);
 
-        if (user.getFavorites().contains(restaurantDTO)) {
-            user.getFavorites().remove(restaurantDTO);
-        } else {
-            user.getFavorites().add(restaurantDTO);
+        boolean isFavorite = false;
+        List<RestaurantDTO> favorites = user.getFavorites();
+        for (RestaurantDTO favorite : favorites) {
+            if (favorite.getId().equals(restaurantId)) {
+                isFavorite = true;
+                break;
+            }
         }
+
+        if (isFavorite) {
+            favorites.removeIf(favorite -> favorite.getId().equals(restaurantId));
+        } else {
+            favorites.add(restaurantDTO);
+        }
+
         userRepository.save(user);
 
         return restaurantDTO;
     }
 
     @Override
-    public Restaurant findRestaurantByOwnerId(Long id) {
+    public List<Restaurant> findRestaurantByOwnerId(Long id) {
 
-        Restaurant restaurant = restaurantRepository.findByOwnerId(id);
+        List<Restaurant> restaurants = restaurantRepository.findByOwnerId(id);
 
-        if (restaurant == null) {
-            throw new BadRequestException("Restaurant Can not found By Owner Id " + id);
+        if (restaurants == null) {
+            throw new BadRequestException("Restaurants Can not found By Owner Id " + id);
         }
 
-        return restaurant;
+        return restaurants;
     }
 }
