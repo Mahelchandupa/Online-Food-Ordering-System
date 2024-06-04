@@ -4,7 +4,9 @@ import com.mahel.FoodOrderingService.dto.CartItemDTO;
 import com.mahel.FoodOrderingService.dto.response.ResponseDTO;
 import com.mahel.FoodOrderingService.model.Cart;
 import com.mahel.FoodOrderingService.model.CartItem;
+import com.mahel.FoodOrderingService.model.User;
 import com.mahel.FoodOrderingService.service.CartService;
+import com.mahel.FoodOrderingService.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,9 @@ public class CartController {
 
     @Autowired
     private CartService cartService;
+
+    @Autowired
+    private UserService userService;
 
 
     @PutMapping("/cart/add")
@@ -75,7 +80,9 @@ public class CartController {
     ) throws Exception {
 
         ResponseDTO<Cart> response = new ResponseDTO<>();
-        Cart cart = cartService.clearCart(jwt);
+        User user = userService.userByToken(jwt);
+
+        Cart cart = cartService.clearCart(user.getId());
 
         response.setPayload(cart);
         response.setMessage("Success");
@@ -91,7 +98,9 @@ public class CartController {
     ) throws Exception {
 
         ResponseDTO<Cart> response = new ResponseDTO<>();
-        Cart cart = cartService.findCartByUserId(jwt);
+        User user = userService.userByToken(jwt);
+
+        Cart cart = cartService.findCartByUserId(user.getId());
 
         response.setPayload(cart);
         response.setMessage("Success");
