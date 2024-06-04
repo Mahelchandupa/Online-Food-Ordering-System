@@ -1,9 +1,7 @@
 package com.mahel.FoodOrderingService.controller;
 
-import com.mahel.FoodOrderingService.dto.OrderDTO;
 import com.mahel.FoodOrderingService.dto.response.ResponseDTO;
 import com.mahel.FoodOrderingService.model.Order;
-import com.mahel.FoodOrderingService.model.User;
 import com.mahel.FoodOrderingService.service.OrderService;
 import com.mahel.FoodOrderingService.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
