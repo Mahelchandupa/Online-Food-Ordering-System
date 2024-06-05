@@ -45,7 +45,7 @@ const HeaderCarousel = () => {
                             <h2 className="text-6xl lg:text-7xl text-red-600 font-bold mb-4">{item.title}</h2>
                             <p className="text-gray-600 lg:text-lg">{item.description}</p>
                         </div>
-                        <div className="lg:w-[800px] w-[90%]">
+                        <div className=" md:w-[500px] lg:w-[800px] w-[90%]">
                             <img className="w-full h-full" src={item.img} alt="Delicious Noodles" />
                         </div>
                     </div>
