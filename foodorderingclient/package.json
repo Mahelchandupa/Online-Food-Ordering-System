@@ -13,6 +13,7 @@
     "ajv": "^8.15.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-responsive-carousel": "^3.2.23",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
