@@ -4,6 +4,7 @@ import { useThemeContext } from '../../Theme/ThemeContext'
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PlaceIcon from '@mui/icons-material/Place';
 import { useState } from 'react';
+import MenuCard from '../../components/MenuCard';
 
 const Restaurant = () => {
 
@@ -30,6 +31,8 @@ const Restaurant = () => {
    const handleFilter = (e) => {
       console.log(e.target.value)
    }
+
+   const foodItem = [1,1,1,1]
 
    return (
       <div className=' px-5 lg:px-20 py-6'>
@@ -102,8 +105,12 @@ const Restaurant = () => {
                   </div>
                </div>
             </div>
-            <div className=' space-y-5 lg:w-[80%] lg:pl-10'>
-               
+            <div className=' space-y-5 lg:w-[80%] lg:pl-10 sm:mt-6'>
+               {
+                  foodItem.map((item, key) => (
+                      <MenuCard />
+                  ))
+               }
             </div>
          </section>
       </div>
