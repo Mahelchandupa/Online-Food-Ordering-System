@@ -3,7 +3,7 @@ import ProfileNavigation from './ProfileNavigation'
 
 function Profile() {
 
-    const [openSideBar, setOpenSideBar] = useState(true)
+    const [openSideBar, setOpenSideBar] = useState(false)
 
     return (
         <div className=' lg:flex justify-between'>

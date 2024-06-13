@@ -6,11 +6,9 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive'
 import EventIcon from '@mui/icons-material/Event'
 import LogOutIcon from '@mui/icons-material/Logout'
 import { Divider, Drawer, useMediaQuery, useTheme } from '@mui/material'
-import { useThemeContext } from '../../Theme/ThemeContext'
 
 function ProfileNavigation({ open, handleClose }) {
 
-    const { mode } = useThemeContext()
     const theme = useTheme();
 
     const menu = [

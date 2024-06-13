@@ -1,18 +1,12 @@
 import './App.css';
-import NavBar from './components/NavBar';
-import Restaurant from './pages/Restaurant/Restaurant';
-import Home from './pages/Home/Home';
-import Cart from './pages/Cart/Cart'
-import Profile from './pages/Profile/Profile';
+
+import { RouterProvider } from 'react-router-dom';
+import router from './router/routes';
 
 function App() {
   return (
       <div className=" font-poppins">
-        <NavBar />
-        {/* <Home /> */}
-        {/* <Restaurant /> */}
-        {/* <Cart /> */}
-        <Profile />
+        <RouterProvider router={router}/>
       </div>
   );
 }
