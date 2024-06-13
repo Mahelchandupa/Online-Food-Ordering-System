@@ -3,6 +3,7 @@ import NavBar from './components/NavBar';
 import Restaurant from './pages/Restaurant/Restaurant';
 import Home from './pages/Home/Home';
 import Cart from './pages/Cart/Cart'
+import Profile from './pages/Profile/Profile';
 
 function App() {
   return (
@@ -10,7 +11,8 @@ function App() {
         <NavBar />
         {/* <Home /> */}
         {/* <Restaurant /> */}
-        <Cart />
+        {/* <Cart /> */}
+        <Profile />
       </div>
   );
 }

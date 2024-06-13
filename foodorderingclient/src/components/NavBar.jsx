@@ -16,8 +16,8 @@ const NavBar = () => {
   const [showSearch, setShowSearch] = useState(false);
 
   return (
-    <div className={` w-full h-[80px] lg:px-16 flex justify-between items-center shadow-md px-5`}
-      style={{ backgroundColor: theme.palette.background.nav, zIndex: 5000 }}
+    <div className={` w-full h-[80px] lg:px-16 flex sticky top-0 z-50 left-0 justify-between items-center shadow-md px-5`}
+      style={{ backgroundColor: theme.palette.background.nav }}
     >
       <div className='flex justify-center lg:gap-3 gap-1'>
         <FastfoodIcon sx={{ color: theme.palette.primary.main, fontSize: '2.3rem' }} />
