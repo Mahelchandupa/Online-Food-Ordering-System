@@ -28,7 +28,7 @@ const ResCard = () => {
     const { mode } = useThemeContext();
 
     return (
-        <Card className="w-[18rem] min-h-80" style={{ backgroundColor: `${ mode === "dark" ? "#EEe" : "#526D82"}`, color: `${ mode === "dark" ? "#000" : "#fff"}` }}>
+        <Card className="w-[18rem] min-h-80" style={{ backgroundColor: theme.palette.background.nav}}>
             <div className={`${isOpen ? 'cursor-pointer' : 'cursor-not-allowed'} relative`}>
                 <img
                     src="https://images.unsplash.com/photo-1552566626-52f8b828add9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHJlc3RhdXJhbnR8ZW58MHx8MHx8fDA%3D"

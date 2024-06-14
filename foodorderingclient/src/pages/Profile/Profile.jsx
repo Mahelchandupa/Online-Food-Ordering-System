@@ -1,5 +1,11 @@
 import React, { useState } from 'react'
 import ProfileNavigation from './ProfileNavigation'
+import { Route, Routes } from 'react-router-dom'
+import Address from './Address'
+import UserProfile from './UserProfile'
+import Orders from './Orders'
+import Favorites from './Favorites'
+import Events from './Events'
 
 function Profile() {
 
@@ -11,7 +17,13 @@ function Profile() {
                 <ProfileNavigation open={openSideBar}/>
             </div>
             <div className=' lg:w-[80%]'>
-               fdsf
+                <Routes>
+                    <Route path='/' element={<UserProfile />}/>
+                    <Route path='/orders' element={<Orders />}/>
+                    <Route path='/favorites' element={<Favorites />}/>
+                    <Route path='/events' element={<Events />}/>
+                    <Route path='/address' element={<Address />}/>
+                </Routes>
             </div>
         </div>
     )

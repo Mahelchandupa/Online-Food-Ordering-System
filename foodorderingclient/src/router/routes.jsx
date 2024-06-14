@@ -4,6 +4,11 @@ import Home from "../pages/Home/Home";
 import Restaurant from "../pages/Restaurant/Restaurant";
 import Cart from "../pages/Cart/Cart";
 import Profile from "../pages/Profile/Profile";
+import Orders from "../pages/Profile/Orders"
+import Favorites from '../pages/Profile/Favorites'
+import Address from '../pages/Profile/Address'
+import Events from '../pages/Profile/Events'
+import UserProfile from '../pages/Profile/UserProfile'
 
 const router = createBrowserRouter([
     {
@@ -27,22 +32,31 @@ const router = createBrowserRouter([
                 element: <Profile />,
                 children: [
                     {
-                        path: '/orders',
+                        path: '/profile',
+                        element: <Orders />
                     },
                     {
-                        path: '/favorites'
+                        path: '/profile/orders',
+                        element: <Orders />
                     },
                     {
-                        path: '/address'
+                        path: '/profile/favorites',
+                        element: <Favorites />
                     },
                     {
-                        path: '/payment'
+                        path: '/profile/address',
+                        element: <Address />
+
                     },
                     {
-                        path: '/notification'
+                        path: '/profile/payment',                     
                     },
                     {
-                        path: '/event'
+                        path: '/profile/notification',
+                    },
+                    {
+                        path: '/profile/events',
+                        element: <Events />
                     }
                 ]
             }

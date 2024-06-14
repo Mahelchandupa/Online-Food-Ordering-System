@@ -25,20 +25,20 @@ const NavBar = () => {
       </div>
       <div className=' flex items-center lg:gap-12 gap-3'>
         <div className=' lg:hidden cursor-pointer' onClick={() => setShowSearch(!showSearch)}>
-          <SearchIcon sx={{ fontSize: '2.0rem', color: theme.palette.primary.icon }} />
+          <SearchIcon sx={{ fontSize: '2.0rem'}} />
         </div>
         <div className=' lg:w-[700px] h-10 rounded-full border-b-[2px] md:hidden sm:hidden lg:block hidden' style={{ borderColor: theme.palette.primary.main }}>
           <input className=' w-full h-full rounded-full px-6 border-none' type="text" name="search" placeholder='search .........' id="" />
         </div>
         <div className=' relative'>
-          <LocalMallIcon sx={{ fontSize: '2.0rem', color: theme.palette.primary.icon }} />
+          <LocalMallIcon sx={{ fontSize: '2.0rem'}} />
           <div className=' w-[25px] h-[25px] rounded-full absolute -top-[7px] -right-[12px] flex items-center justify-center' style={{ backgroundColor: theme.palette.primary.main, color: theme.palette.background.default }}>
             <span>1</span>
           </div>
         </div>
         <IconButton onClick={toggleTheme} >
           {
-            mode === "dark" ? <LightModeIcon sx={{ fontSize: '2.0rem', color: theme.palette.primary.icon }} /> : <DarkModeIcon sx={{ fontSize: '2.0rem', color: theme.palette.primary.icon }} />
+            mode === "dark" ? <LightModeIcon sx={{ fontSize: '2.0rem'}} /> : <DarkModeIcon sx={{ fontSize: '2.0rem', color: theme.palette.primary.icon }} />
           }
         </IconButton>
         <Avatar sx={{ backgroundColor: theme.palette.primary.main }}>N</Avatar>
