@@ -1,4 +1,4 @@
-import { Box, Button, Card, Divider, Grid, Modal, TextField, Typography } from '@mui/material'
+import { Box, Button, Card, Divider, Grid, Modal, TextField } from '@mui/material'
 import React, { useState } from 'react'
 import CartItem from './CartItem'
 import AddressCard from './AddressCard'
