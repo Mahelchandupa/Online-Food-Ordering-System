@@ -27,9 +27,13 @@ const ResCard = ({ id }) => {
     const theme = useTheme();
     const navigate = useNavigate();
 
+    const handleNavigate = () => {
+        if (isOpen) navigate(`/restaurant/${id}`);
+    }
+
     return (
         <Card className="w-[18rem] min-h-80" style={{ backgroundColor: theme.palette.background.nav}}>
-            <div onClick={() => isOpen ? navigate(`/restaurant/${id}`) : ''} className={`${isOpen ? 'cursor-pointer' : 'cursor-not-allowed'} relative`}>
+            <div onClick={handleNavigate} className={`${isOpen ? 'cursor-pointer' : 'cursor-not-allowed'} relative`}>
                 <img
                     src="https://images.unsplash.com/photo-1552566626-52f8b828add9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHJlc3RhdXJhbnR8ZW58MHx8MHx8fDA%3D"
                     alt="Restaurant"
