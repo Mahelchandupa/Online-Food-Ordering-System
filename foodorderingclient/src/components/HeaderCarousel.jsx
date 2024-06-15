@@ -28,6 +28,7 @@ const carouselItems = [
 const HeaderCarousel = () => {
     return (
         <Carousel
+            showThumbs={false}
             infiniteLoop
             useKeyboardArrows
             autoPlay={true}

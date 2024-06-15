@@ -9,6 +9,7 @@ import Favorites from '../pages/Profile/Favorites'
 import Address from '../pages/Profile/Address'
 import Events from '../pages/Profile/Events'
 import UserProfile from '../pages/Profile/UserProfile'
+import Auth from "../components/Auth/Auth";
 
 const router = createBrowserRouter([
     {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
             {
                 path: '/',
                 element: <Home />
+            },
+            {
+                path: '/account/*',
+                element: <Auth />
             },
             {
                 path: '/restaurant/:restaurantId',
@@ -33,7 +38,7 @@ const router = createBrowserRouter([
                 children: [
                     {
                         path: '/profile',
-                        element: <Orders />
+                        element: <UserProfile />
                     },
                     {
                         path: '/profile/orders',
