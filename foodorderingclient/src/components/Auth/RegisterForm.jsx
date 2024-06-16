@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Grid, Select, TextField, Typography, MenuItem, FormControl, InputLabel } from '@mui/material';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser } from '../../redux/slices/authSlice';
+import StatusCode from '../../utils/StatusCode';
+import { toast } from 'react-toastify';
 
 function RegisterForm() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user, status, message } = useSelector((state) => state.auth);
+
+  console.log(`message: ${message}, status: ${status}`)
 
   const [values, setValues] = useState({
     fullName: '',
@@ -51,13 +60,21 @@ function RegisterForm() {
       });
   };
 
+  useEffect(() => {
+    if (user && status === StatusCode.SUCCESS) {
+      toast.success(message)
+      setTimeout(() => {
+        navigate('/account/login'); 
+      }, 2000);
+    }
+  }, [user, navigate]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     validationSchema
       .validate(values, { abortEarly: false })
       .then(() => {
-        console.log('Form values:', values);
-        // Submit the form or perform the registration logic
+        dispatch(registerUser(values));
       })
       .catch((err) => {
         const validationErrors = {};
