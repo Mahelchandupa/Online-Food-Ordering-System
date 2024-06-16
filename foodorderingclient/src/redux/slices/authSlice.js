@@ -17,10 +17,15 @@ export const registerUser = createAsyncThunk('auth/registerUser', async (userDat
 //async thunk for logging in a user
 export const loginUser = createAsyncThunk('auth/loginuser', async (credentials, { rejectWithValue }) => {
     try {
-        const response = await axios.post('http://localhost:8080//api/v1/user/login', credentials);
+        const response = await axios.post('http://localhost:8080/api/v1/user/login', credentials, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        
+        });
         const { jwt, email, username, role } = response.data.payload;
         localStorage.setItem('jwtToken', jwt);
-        return { token: jwt, user: { email, username, role }, message: response.data.message};
+        return { token: jwt, user: { email, username, role }, message: response.data.message,};
     } catch (error) {
         return rejectWithValue(error.response.data)
     }

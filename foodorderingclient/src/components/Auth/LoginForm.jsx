@@ -1,23 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Grid, TextField, Typography } from '@mui/material';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../../redux/slices/authSlice';
+import { toast } from 'react-toastify';
+import StatusCode from '../../utils/StatusCode';
 
 function LoginForm() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user, status, message, error } = useSelector(state => state.auth)
 
   const [values, setValues] = useState({
-    username: '',
+    email: '',
     password: ''
   });
 
   const [errors, setErrors] = useState({
-    username: '',
+    email: '',
     password: ''
   });
 
   const validationSchema = Yup.object().shape({
-    username: Yup.string().required('Username is required'),
+    email: Yup.string().required('Username is required'),
     password: Yup.string().required('Password is required'),
   });
 
@@ -45,13 +51,24 @@ function LoginForm() {
       });
   };
 
+  useEffect(() => {
+    if (error) {
+      toast.error(`Error: ${error?.error}`);
+    }
+    if (user && status === StatusCode.SUCCESS) {
+      toast.success(message)
+      setTimeout(() => {
+        navigate('/');
+      }, 2000);
+    }
+  }, [user, error, navigate])
+
   const handleSubmit = (e) => {
     e.preventDefault();
     validationSchema
       .validate(values, { abortEarly: false })
       .then(() => {
-        console.log('Form values:', values);
-        // Submit the form or perform the login logic
+        dispatch(loginUser(values))
       })
       .catch((err) => {
         const validationErrors = {};
@@ -69,8 +86,8 @@ function LoginForm() {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
-              name="username"
-              label="Username or Email"
+              name="email"
+              label="Email"
               fullWidth
               variant="outlined"
               value={values.username}
