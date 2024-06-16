@@ -1,9 +1,22 @@
+import { useSelector } from 'react-redux';
 import HeaderCarousel from '../../components/HeaderCarousel';
 import RestaurantCard from '../../components/RestaurantCard';
 import Title from '../../components/Title';
 import TopMealsCarousel from '../../components/TopMealsCarousel';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const Home = () => {
+
+    const { token } = useSelector(state => state.auth)
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (!token) {
+            navigate('/account/login')
+        }
+    }, [])
+
     return (
         <div className=' '>
             <HeaderCarousel />

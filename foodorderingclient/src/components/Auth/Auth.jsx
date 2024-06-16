@@ -4,9 +4,12 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { style } from '../../utils/ModelStyles'
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
+import { useSelector } from 'react-redux'
 
 
 function Auth() {
+
+  const { token } = useSelector(state => state.auth)
   
   const location = useLocation()
   const navigate  = useNavigate()
@@ -14,7 +17,7 @@ function Auth() {
   const { pathname } = location
 
   const handleOnClose = () => {
-    navigate('/')
+      navigate('/')
   }
     
   return (
