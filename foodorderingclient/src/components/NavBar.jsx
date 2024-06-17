@@ -10,8 +10,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useSelector } from 'react-redux';
 
 const NavBar = () => {
+
+  const { token, user } = useSelector(state => state.auth)
 
   const navigate = useNavigate()
   const { mode, toggleTheme } = useThemeContext();
@@ -44,8 +47,8 @@ const NavBar = () => {
             mode === "dark" ? <LightModeIcon sx={{ fontSize: '2.0rem'}} /> : <DarkModeIcon sx={{ fontSize: '2.0rem', color: theme.palette.primary.icon }} />
           }
         </IconButton>
-        { false ?
-          <Avatar onClick={() => navigate("/profile")} sx={{ backgroundColor: theme.palette.primary.main, cursor: 'pointer' }}>N</Avatar> :
+        { token ?
+          <Avatar onClick={() => navigate("/profile")} sx={{ backgroundColor: theme.palette.primary.main, cursor: 'pointer' }}>{user?.fullName?.charAt(0).toUpperCase()}</Avatar> :
           <IconButton>
             <AccountCircleIcon onClick={() => navigate("/account/login")}  sx={{ fontSize: '3.0rem', color: theme.palette.primary.main, cursor: 'pointer' }} />
           </IconButton>  
