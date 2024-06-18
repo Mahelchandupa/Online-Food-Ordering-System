@@ -14,7 +14,7 @@ const Home = () => {
     useEffect(() => {
         if (!token) {
             navigate('/account/login')
-        }
+        } 
     }, [])
 
     return (

@@ -2,24 +2,34 @@ import { useThemeContext } from '../Theme/ThemeContext'
 import { useTheme } from '@mui/material/styles';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import SearchIcon from '@mui/icons-material/Search';
-import { Avatar, Icon, IconButton } from '@mui/material';
+import { Avatar, IconButton } from '@mui/material';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import CloseIcon from '@mui/icons-material/Close';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { userProfile } from '../redux/slices/authSlice';
 
 const NavBar = () => {
 
   const { token, user } = useSelector(state => state.auth)
+  const dispatch = useDispatch()
 
   const navigate = useNavigate()
   const { mode, toggleTheme } = useThemeContext();
   const theme = useTheme();
   const [showSearch, setShowSearch] = useState(false);
+
+  useEffect(() => {
+    if (!token && !user) {
+      navigate('/account/login')
+    } else {
+      dispatch(userProfile())
+    }
+  }, [token, user])
 
   return (
     <div className={` w-full h-[80px] lg:px-16 flex sticky top-0 z-50 left-0 justify-between items-center shadow-md px-5`}
@@ -47,7 +57,7 @@ const NavBar = () => {
             mode === "dark" ? <LightModeIcon sx={{ fontSize: '2.0rem'}} /> : <DarkModeIcon sx={{ fontSize: '2.0rem', color: theme.palette.primary.icon }} />
           }
         </IconButton>
-        { token ?
+        { user ?
           <Avatar onClick={() => navigate("/profile")} sx={{ backgroundColor: theme.palette.primary.main, cursor: 'pointer' }}>{user?.fullName?.charAt(0).toUpperCase()}</Avatar> :
           <IconButton>
             <AccountCircleIcon onClick={() => navigate("/account/login")}  sx={{ fontSize: '3.0rem', color: theme.palette.primary.main, cursor: 'pointer' }} />
