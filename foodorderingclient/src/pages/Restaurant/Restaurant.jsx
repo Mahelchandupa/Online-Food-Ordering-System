@@ -1,15 +1,25 @@
 import { Divider, FormControl, FormControlLabel, Grid, Radio, RadioGroup, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles';
-import { useThemeContext } from '../../Theme/ThemeContext'
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PlaceIcon from '@mui/icons-material/Place';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MenuCard from '../../components/MenuCard';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { fetchRestaurantById } from '../../redux/slices/restaurantSlice';
 
 const Restaurant = () => {
 
-   const { mode } = useThemeContext();
    const theme = useTheme();
+   const dispatch = useDispatch()
+   const { restaurant } = useSelector(state => state.restaurants)
+   const navigate = useNavigate()
+
+   const { restaurantId } = useParams()
+
+   useEffect(() => {
+      dispatch(fetchRestaurantById(restaurantId))
+   }, [restaurantId])
 
    const categories = [
       "pizza",
@@ -32,31 +42,34 @@ const Restaurant = () => {
       console.log(e.target.value)
    }
 
-   const foodItem = [1,1,1,1]
+   const foodItem = [1, 1, 1, 1]
 
    return (
       <div className=' px-5 lg:px-20 py-6'>
          <section>
-            <h3 className=' py-2'>Home / Srilanka / Restaurant / 1</h3>
+            <h3 className=' py-2'><span className=' cursor-pointer' onClick={() => navigate("/")}>Home</span> / {restaurant?.address?.country} / {restaurant?.name} / 1</h3>
             <div>
                <Grid container spacing={2}>
                   <Grid item xs={12}>
-                     <img className=' w-full h-[40vh] object-cover' src="https://images.pexels.com/photos/260922/pexels-photo-260922.jpeg?auto=compress&cs=tinysrgb&w=400" alt="" />
+                     <img className=' w-full h-[40vh] object-cover' src={restaurant?.images[0]} alt="" />
                   </Grid>
-                  <Grid item xs={12} lg={6}>
-                     <img className=' w-full h-[40vh] object-cover' src="https://images.pexels.com/photos/67468/pexels-photo-67468.jpeg?auto=compress&cs=tinysrgb&w=400" alt="" />
+                  <Grid item xs={12} lg={restaurant?.images.length > 2 ? 6 : 12}>
+                     <img className=' w-full h-[40vh] object-cover' src={restaurant?.images[1]} alt="" />
                   </Grid>
-                  <Grid item xs={12} lg={6}>
-                     <img className=' w-full h-[40vh] object-cover' src="https://images.pexels.com/photos/1307698/pexels-photo-1307698.jpeg?auto=compress&cs=tinysrgb&w=400" alt="" />
-                  </Grid>
+                  {
+                     restaurant?.images.length > 2 &&
+                     <Grid item xs={12} lg={6}>
+                        <img className=' w-full h-[40vh] object-cover' src="https://images.pexels.com/photos/1307698/pexels-photo-1307698.jpeg?auto=compress&cs=tinysrgb&w=400" alt="" />
+                     </Grid>
+                  }
                </Grid>
             </div>
             <div className=' pt-6 pb-5'>
-               <h1 className=' text-4xl font-semibold mb-2'>Restaurant</h1>
+               <h1 className=' text-4xl font-semibold mb-2'>{restaurant?.name}</h1>
                <div className=' flex flex-col gap-4'>
-                  <p className={` lg:max-w-[80%]`} style={{ color: theme.palette.background.gray }}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate maxime non ea laudantium similique a corrupti fugit quos porro, atque, optio maiores suscipit at quod culpa natus sunt odio tempore!</p>
-                  <span><AccessTimeIcon color='warning' /> Mon-Sun: 9.00 AM - 9.00 PM (Today)</span>
-                  <span><PlaceIcon color='warning' /> Colombo, No 123</span>
+                  <p className={` lg:max-w-[80%]`} style={{ color: theme.palette.background.gray }}>{restaurant?.description}</p>
+                  <span><AccessTimeIcon color='warning' /> {restaurant?.openingHours} (Today)</span>
+                  <span><PlaceIcon color='warning' />{restaurant?.address.street}</span>
                </div>
             </div>
          </section>
@@ -108,7 +121,7 @@ const Restaurant = () => {
             <div className=' space-y-5 lg:w-[80%] lg:pl-10 sm:mt-6'>
                {
                   foodItem.map((item, key) => (
-                      <MenuCard />
+                     <MenuCard />
                   ))
                }
             </div>

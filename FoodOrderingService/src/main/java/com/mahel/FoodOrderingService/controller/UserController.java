@@ -59,7 +59,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseDTO<JWTResponseDTO>> loginUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<ResponseDTO<JWTResponseDTO>> loginUser(@RequestBody UserDTO userDTO) throws Exception {
 
         ResponseDTO<JWTResponseDTO> response = new ResponseDTO<>();
 
@@ -70,9 +70,13 @@ public class UserController {
 
         String jwt = jwtProvider.generateToken(authentication);
 
+        User user = userService.userByEmail(userDTO.getEmail());
+
         JWTResponseDTO jwtResponseDTO = new JWTResponseDTO();
         jwtResponseDTO.setJwt(jwt);
         jwtResponseDTO.setEmail(userDTO.getEmail());
+        jwtResponseDTO.setUserName(user.getFullName());
+        jwtResponseDTO.setRole(user.getRole());
 
         response.setPayload(jwtResponseDTO);
         response.setMessage("Login Successful");
