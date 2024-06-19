@@ -29,7 +29,7 @@ const Root = () => {
             toast.error('Session expired, please login again')
             navigate('/account/login')  
         }
-    }, [token, navigate])
+    }, [])
 
     return (
         <>

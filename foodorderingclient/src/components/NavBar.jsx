@@ -29,7 +29,7 @@ const NavBar = () => {
     } else {
       dispatch(userProfile())
     }
-  }, [token, user])
+  }, [])
 
   return (
     <div className={` w-full h-[80px] lg:px-16 flex sticky top-0 z-50 left-0 justify-between items-center shadow-md px-5`}

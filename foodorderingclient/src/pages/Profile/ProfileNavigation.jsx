@@ -6,12 +6,29 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive'
 import EventIcon from '@mui/icons-material/Event'
 import LogOutIcon from '@mui/icons-material/Logout'
 import { Divider, Drawer, useMediaQuery, useTheme } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 function ProfileNavigation({ open, handleClose }) {
 
     const theme = useTheme();
     const navigate = useNavigate()
+    const location = useLocation();
+    const [path, setPath] = useState('')
+
+    const { pathname } = location
+
+
+    useEffect(() => {
+        getPath()
+    }, [pathname])
+
+    const getPath = () => {
+        const path = pathname.split('/')[2]
+        setPath(path)
+    }
+
+    console.log(path)
 
     const menu = [
         {
@@ -57,7 +74,7 @@ function ProfileNavigation({ open, handleClose }) {
                     {
                         menu.map((item, index) => (
                             <>
-                                <div onClick={() => handleNavigate(item?.title)} className=' px-5 flex items-center space-x-5 cursor-pointer'>
+                                <div onClick={() => handleNavigate(item?.title)} className=' px-5 flex items-center space-x-5 cursor-pointer' style={path === item?.title?.toLocaleLowerCase() ? { color: 'orange' } : {}}>
                                     {item.icon}
                                     <span>{item.title}</span>
                                 </div>
