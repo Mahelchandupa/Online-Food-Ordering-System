@@ -6,6 +6,7 @@
   <li>Spring Boot</li>
   <li>Tailwind CSS</li>
   <li>Material Ui</li>
+  <li>My Sql</li>
 </ul>
 
 <img src="https://github.com/Mahelchandupa/Online-Food-Ordering-System/assets/110615431/363b0dec-65b4-462b-8d3f-151bf9a0409f" width="250" height="500" style="margin-right: 20px;"/>
