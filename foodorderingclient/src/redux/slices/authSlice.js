@@ -22,20 +22,30 @@ export const loginUser = createAsyncThunk('auth/loginuser', async (credentials, 
             headers: {
                 'Content-Type': 'application/json'
             }
-        
+
         });
         const { jwt, email, userName, role } = response.data.payload;
         localStorage.setItem('jwtToken', jwt);
-        return { token: jwt, user: { email, userName, role }, message: response.data.message,};
+        return { token: jwt, user: { email, userName, role }, message: response.data.message, };
     } catch (error) {
         return rejectWithValue(error.response.data)
     }
 })
 //async thunk for fetching user profile
-export const userProfile = createAsyncThunk('auth/userProfile', async (_, { isRejectedWithValue}) => {
+export const userProfile = createAsyncThunk('auth/userProfile', async (_, { isRejectedWithValue }) => {
     try {
-       const response = await api.get('/user/profile')
-       return response.data
+        const response = await api.get('/user/profile')
+        return response.data
+    } catch (error) {
+        return isRejectedWithValue(error.response.data)
+    }
+})
+
+//async thunk for add to favorite
+export const addToFavorite = createAsyncThunk('restaurants/addToFavorite', async (restaurantId, { isRejectedWithValue }) => {
+    try {
+        const response = await api.put(`/restaurants/${restaurantId}/add-favorites`)
+        return response.data
     } catch (error) {
         return isRejectedWithValue(error.response.data)
     }
@@ -44,6 +54,7 @@ export const userProfile = createAsyncThunk('auth/userProfile', async (_, { isRe
 const initialState = {
     message: null,
     user: null,
+    favorites: [],
     token: localStorage.getItem('jwtToken'),
     loading: false,
     error: null,
@@ -109,9 +120,37 @@ const authSlice = createSlice({
             .addCase(userProfile.fulfilled, (state, action) => {
                 state.loading = false;
                 state.user = action.payload.payload;
+                state.favorites = [...action.payload.payload.favorites]
                 state.status = StatusCode.SUCCESS;
             })
             .addCase(userProfile.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+                state.status = StatusCode.ERROR;
+            })
+
+            //add to favorite
+            .addCase(addToFavorite.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+                state.status = StatusCode.LOADING;
+            })
+            .addCase(addToFavorite.fulfilled, (state, action) => {
+                state.loading = false;
+                state.message =  action.payload.message;
+
+                const favorite = action.payload.payload;
+
+                if (state.favorites.some(item => item.id === favorite.id)) {
+                    // If the favorite is already in the list, remove it
+                    state.favorites = state.favorites.filter(item => item.id !== favorite?.id);
+                } else {
+                    // If the favorite is not in the list, add it
+                    state.favorites = [...state.favorites, favorite];
+                }
+                state.status = StatusCode.SUCCESS;
+            })
+            .addCase(addToFavorite.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
                 state.status = StatusCode.ERROR;

@@ -85,15 +85,7 @@ export const searchRestaurants = createAsyncThunk('restaurants/searchRestaurants
   }
 })
 
-//async thunk for add to favorite
-export const addToFavorite = createAsyncThunk('restaurants/addToFavorite', async (restaurantId, { isRejectedWithValue }) => {
-  try {
-    const response = api.post(`/restaurants/${restaurantId}/add-favorites`)
-    return response.data
-  } catch (error) {
-    return isRejectedWithValue(error.response.data)
-  }
-})
+
 
 //async thunk for create category
 export const createCategory = createAsyncThunk('restaurants/createCategory', async (category, { isRejectedWithValue}) => {
@@ -284,24 +276,7 @@ const restaurantSlice = createSlice({
             state.error = action.payload;
             state.status = StatusCode.ERROR;
           })
-
-          //add to favorite
-          .addCase(addToFavorite.pending, (state) => {
-            state.loading = true;
-            state.error = null;
-            state.status = StatusCode.LOADING;
-          })
-          .addCase(addToFavorite.fulfilled, (state, action) => {
-            state.loading = false;
-            state.message = action.payload.message;
-            state.status = StatusCode.SUCCESS;
-          })
-          .addCase(addToFavorite.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.payload;
-            state.status = StatusCode.ERROR;
-          })
-
+          
           //create category
           .addCase(createCategory.pending, (state) => {
             state.loading = true;

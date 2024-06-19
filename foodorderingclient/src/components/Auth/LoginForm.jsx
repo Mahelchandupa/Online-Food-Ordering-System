@@ -3,7 +3,7 @@ import { Button, Grid, TextField, Typography } from '@mui/material';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../../redux/slices/authSlice';
+import { loginUser, userProfile } from '../../redux/slices/authSlice';
 import { toast } from 'react-toastify';
 import StatusCode from '../../utils/StatusCode';
 
@@ -58,6 +58,7 @@ function LoginForm() {
     if (user && status === StatusCode.SUCCESS) {
       toast.success(message)
       setTimeout(() => {
+        dispatch(userProfile())
         navigate('/');
       }, 2000);
     }
