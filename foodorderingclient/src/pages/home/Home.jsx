@@ -1,10 +1,10 @@
 import { useSelector } from 'react-redux';
 import HeaderCarousel from '../../components/HeaderCarousel';
-import RestaurantCard from '../../components/RestaurantCard';
 import Title from '../../components/Title';
 import TopMealsCarousel from '../../components/TopMealsCarousel';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import RestaurantList from '../Restaurant/RestaurantList';
 
 const Home = () => {
 
@@ -26,7 +26,7 @@ const Home = () => {
             </div>
             <div className='w-full px-5 lg:px-[120px] md:px-[60px] flex flex-col justify-center mb-11'>
                 <Title>Order From Our Handpicked Favorites</Title>
-                <RestaurantCard />
+                <RestaurantList />
             </div>
         </div>
     );

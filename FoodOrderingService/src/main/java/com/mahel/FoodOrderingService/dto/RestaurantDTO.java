@@ -23,4 +23,6 @@ public class RestaurantDTO {
     private String description;
 
     private Long id;
+
+    private boolean open = false;
 }
